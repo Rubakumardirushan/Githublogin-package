@@ -1,0 +1,25 @@
+{
+    "name": "dirushan/githublogin",
+    "description": "User easliy login used github account",
+    "type": "package",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dirushan\\Githublogin\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dirushan\\Githublogin\\GithubloginServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "DIRUSHAN"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
