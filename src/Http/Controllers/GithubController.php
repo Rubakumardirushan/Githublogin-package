@@ -1,11 +1,14 @@
 <?php
 
 namespace Dirushan\Githublogin\Http\Controllers;
+
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use App\Models\User;
+
+use Dirushan\Githublogin\Models\Githubuser; // Adjust this namespace as per your package structure
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+
 class GithubController extends BaseController
 {
     public function redirectToProvider()
@@ -15,15 +18,20 @@ class GithubController extends BaseController
 
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('github')->user();
+        try {
+            $user = Socialite::driver('github')->user();
+        } catch (\Exception $e) {
+            return redirect('/')->with('error', 'GitHub authentication failed');
+        }
 
         // Check if the user already exists
-        $existingUser = User::where('github_id', $user->id)->first();
+        $existingUser = Githubuser::where('github_id', $user->id)->first();
+
         if ($existingUser) {
             Auth::login($existingUser);
         } else {
-            // Create a new user
-            $newUser = new User;
+            // Create a new user record
+            $newUser = new Githubuser();
             $newUser->name = $user->name;
             $newUser->email = $user->email;
             $newUser->github_id = $user->id;
