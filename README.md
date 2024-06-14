@@ -23,3 +23,4 @@ composer require dirushan/githublogin
 next php artisan migrate
 
 route .. /github
+"minimum-stability": "dev"
